@@ -8,6 +8,14 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
+import {
+  ActiveSignedUrl,
+  ActiveSignedUrl$inboundSchema,
+} from "./activesignedurl.js";
+import {
+  Visibility,
+  Visibility$inboundSchema,
+} from "./visibility.js";
 
 export type ImageListItem = {
   /**
@@ -42,6 +50,14 @@ export type ImageListItem = {
    * All paths for this image
    */
   paths: Array<string>;
+  /**
+   * Image visibility setting
+   */
+  visibility: Visibility;
+  /**
+   * Active signed URL (if available)
+   */
+  activeSignedUrl?: ActiveSignedUrl | undefined;
 };
 
 /** @internal */
@@ -58,6 +74,8 @@ export const ImageListItem$inboundSchema: z.ZodMiniType<
     url: types.string(),
     cdn_url: types.optional(types.string()),
     paths: z.array(types.string()),
+    visibility: Visibility$inboundSchema,
+    active_signed_url: types.optional(ActiveSignedUrl$inboundSchema),
   }),
   z.transform((v) => {
     return remap$(v, {
@@ -65,6 +83,7 @@ export const ImageListItem$inboundSchema: z.ZodMiniType<
       "sanitized_filename": "sanitizedFilename",
       "uploaded_at": "uploadedAt",
       "cdn_url": "cdnUrl",
+      "active_signed_url": "activeSignedUrl",
     });
   }),
 );

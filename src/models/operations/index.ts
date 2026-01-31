@@ -14,6 +14,7 @@ export * from "./getusage.js";
 export * from "./listimages.js";
 export * from "./listpresets.js";
 export * from "./searchimages.js";
+export * from "./updateimagevisibility.js";
 export * from "./updatepreset.js";
 export * from "./updatesettings.js";
 export * from "./uploadimage.js";

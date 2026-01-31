@@ -23,6 +23,10 @@ export type UserSettings = {
    */
   email?: string | undefined;
   /**
+   * Subscription plan (free or pro)
+   */
+  plan: string;
+  /**
    * Preferred delivery formats (ordered)
    */
   deliveryFormats: Array<string>;
@@ -75,6 +79,7 @@ export const UserSettings$inboundSchema: z.ZodMiniType<UserSettings, unknown> =
       id: types.string(),
       username: types.string(),
       email: types.optional(types.string()),
+      plan: types.string(),
       delivery_formats: z.array(types.string()),
       default_quality: types.number(),
       default_fit_mode: types.string(),

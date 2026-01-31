@@ -8,6 +8,10 @@ import { safeParse } from "../../lib/schemas.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
+import {
+  Visibility,
+  Visibility$inboundSchema,
+} from "./visibility.js";
 
 export type SearchResult = {
   /**
@@ -42,6 +46,10 @@ export type SearchResult = {
    * CDN URL
    */
   cdnUrl?: string | undefined;
+  /**
+   * Image visibility setting
+   */
+  visibility: Visibility;
 };
 
 /** @internal */
@@ -56,6 +64,7 @@ export const SearchResult$inboundSchema: z.ZodMiniType<SearchResult, unknown> =
       uploaded_at: types.date(),
       url: types.string(),
       cdn_url: types.optional(types.string()),
+      visibility: Visibility$inboundSchema,
     }),
     z.transform((v) => {
       return remap$(v, {

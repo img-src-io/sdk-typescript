@@ -11,6 +11,10 @@ import { SDKValidationError } from "../errors/sdkvalidationerror.js";
 import { CdnUrls, CdnUrls$inboundSchema } from "./cdnurls.js";
 import { HateoasLinks, HateoasLinks$inboundSchema } from "./hateoaslinks.js";
 import { ImageMetadata, ImageMetadata$inboundSchema } from "./imagemetadata.js";
+import {
+  Visibility,
+  Visibility$inboundSchema,
+} from "./visibility.js";
 
 export type MetadataResponse = {
   /**
@@ -18,6 +22,10 @@ export type MetadataResponse = {
    */
   id: string;
   metadata: ImageMetadata;
+  /**
+   * Image visibility setting
+   */
+  visibility: Visibility;
   urls: CdnUrls;
   links: HateoasLinks;
 };
@@ -30,6 +38,7 @@ export const MetadataResponse$inboundSchema: z.ZodMiniType<
   z.object({
     id: types.string(),
     metadata: ImageMetadata$inboundSchema,
+    visibility: Visibility$inboundSchema,
     urls: CdnUrls$inboundSchema,
     _links: HateoasLinks$inboundSchema,
   }),
