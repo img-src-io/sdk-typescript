@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  build-and-test:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -28,11 +28,36 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Type check
-        run: npm run type-check || true
+      - name: Build
+        run: npm run build
 
       - name: Lint
-        run: npm run lint || true
+        run: npm run lint
 
-      - name: Test
-        run: npm test || true
+      - name: Unit tests
+        run: npm test
+
+  e2e:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    # Skip on fork PRs where secrets are unavailable
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: E2E integration tests
+        run: npm test -- test/integration/sdk-e2e.test.ts
+        env:
+          IMGSRC_API_KEY: ${{ secrets.IMGSRC_API_KEY }}
