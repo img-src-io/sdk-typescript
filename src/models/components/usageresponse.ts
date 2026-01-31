@@ -10,6 +10,7 @@ import { OpenEnum } from "../../types/enums.js";
 import { Result as SafeParseResult } from "../../types/fp.js";
 import * as types from "../../types/primitives.js";
 import { SDKValidationError } from "../errors/sdkvalidationerror.js";
+import { Credits, Credits$inboundSchema } from "./credits.js";
 import { CurrentPeriod, CurrentPeriod$inboundSchema } from "./currentperiod.js";
 import { PlanLimits, PlanLimits$inboundSchema } from "./planlimits.js";
 
@@ -61,6 +62,7 @@ export type UsageResponse = {
    */
   storageUsedGb: number;
   currentPeriod: CurrentPeriod;
+  credits: Credits;
 };
 
 /** @internal */
@@ -83,6 +85,7 @@ export const UsageResponse$inboundSchema: z.ZodMiniType<
     storage_used_mb: types.number(),
     storage_used_gb: types.number(),
     current_period: CurrentPeriod$inboundSchema,
+    credits: Credits$inboundSchema,
   }),
   z.transform((v) => {
     return remap$(v, {

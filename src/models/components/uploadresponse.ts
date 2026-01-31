@@ -17,6 +17,10 @@ import {
   ImageDimensions,
   ImageDimensions$inboundSchema,
 } from "./imagedimensions.js";
+import {
+  Visibility,
+  Visibility$inboundSchema,
+} from "./visibility.js";
 
 export type UploadResponse = {
   /**
@@ -50,6 +54,10 @@ export type UploadResponse = {
   dimensions?: ImageDimensions | undefined;
   availableFormats: AvailableFormats;
   /**
+   * Image visibility setting
+   */
+  visibility: Visibility;
+  /**
    * Upload timestamp (RFC3339 format)
    */
   uploadedAt: Date;
@@ -71,6 +79,7 @@ export const UploadResponse$inboundSchema: z.ZodMiniType<
     format: types.string(),
     dimensions: types.optional(ImageDimensions$inboundSchema),
     available_formats: AvailableFormats$inboundSchema,
+    visibility: Visibility$inboundSchema,
     uploaded_at: types.date(),
     _links: HateoasLinks$inboundSchema,
   }),

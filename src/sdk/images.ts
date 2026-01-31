@@ -3,6 +3,7 @@
  */
 
 import { imagesCreateSignedUrl } from "../funcs/imagesCreateSignedUrl.js";
+import { imagesUpdateImageVisibility } from "../funcs/imagesUpdateImageVisibility.js";
 import { imagesDeleteImage } from "../funcs/imagesDeleteImage.js";
 import { imagesDeleteImagePath } from "../funcs/imagesDeleteImagePath.js";
 import { imagesGetImage } from "../funcs/imagesGetImage.js";
@@ -119,6 +120,25 @@ export class Images extends ClientSDK {
     options?: RequestOptions,
   ): Promise<operations.CreateSignedUrlResponse> {
     return unwrapAsync(imagesCreateSignedUrl(
+      this,
+      id,
+      body,
+      options,
+    ));
+  }
+
+  /**
+   * Update image visibility
+   *
+   * @remarks
+   * Update the visibility setting of an image (public or private)
+   */
+  async updateImageVisibility(
+    id: string,
+    body: components.UpdateVisibilityRequest,
+    options?: RequestOptions,
+  ): Promise<operations.UpdateImageVisibilityResponse> {
+    return unwrapAsync(imagesUpdateImageVisibility(
       this,
       id,
       body,
