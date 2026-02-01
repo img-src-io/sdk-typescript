@@ -89,10 +89,64 @@ Several rules are intentionally disabled because the code is auto-generated:
 
 The SDK is regenerated from the OpenAPI spec using Speakeasy. Generation metadata lives in `.speakeasy/gen.lock`. The current generation:
 - Speakeasy v1.685.3 / Generation v2.795.8
-- SDK version: 0.1.1
+- SDK version: 0.2.0
 - OpenAPI doc version: 1.0.0
 
 To regenerate, update the OpenAPI spec and run Speakeasy's generation tooling. See the parent repository's workflow for the exact regeneration command.
+
+## Testing
+
+The SDK uses **Vitest** for testing. Test infrastructure includes:
+
+### Test Categories
+
+- **Component Schema Tests** (`test/components/`): Validate Zod schemas for data model types in `models/components/`
+- **Operation Schema Tests** (`test/operations/`): Validate request/response schemas for operation types
+- **Integration Tests** (`test/integration/sdk-e2e.test.ts`): E2E tests against the live API (not run in CI)
+
+### Running Tests
+
+```bash
+npm test                                    # Run all tests (unit only in CI)
+IMGSRC_API_KEY=xxx npm test                 # Run all tests including E2E
+npm test -- test/integration/sdk-e2e.test.ts  # Run E2E tests only
+```
+
+E2E integration tests require a live API key and are skipped automatically when `IMGSRC_API_KEY` is not set (via `describe.skipIf`). They are not run in CI.
+
+### Test Configuration
+
+- **Config**: `vitest.config.ts` with globals enabled
+- **Test Pattern**: `test/**/*.test.ts`
+- **CI Matrix**: Node.js 18, 20, 22 on ubuntu-latest
+
+## CD/Publishing
+
+The SDK is published to npm automatically when a git tag is pushed.
+
+### Release Process
+
+```bash
+# 1. Update version in package.json
+# 2. Commit the version bump
+# 3. Tag and push to trigger publish
+git tag v0.2.0
+git push origin v0.2.0
+```
+
+### Publish Workflow (`.github/workflows/publish.yml`)
+
+1. Runs full test suite across Node.js 18, 20, 22
+2. Validates git tag matches `package.json` version (fails if mismatch)
+3. Publishes to npm with `--provenance` flag (supply chain security)
+4. Creates a GitHub Release with auto-generated notes
+
+**Requirements:**
+- `NPM_TOKEN` secret in GitHub repository settings
+- Tag format: `v*` (e.g., `v0.2.0`)
+- Tag version must match `package.json` version exactly
+
+**Permissions:** `contents: write` (GitHub releases), `id-token: write` (npm provenance)
 
 ## Supported Runtimes
 
