@@ -29,6 +29,10 @@ export type CdnUrls = {
    * PNG format URL
    */
   png: string;
+  /**
+   * JPEG XL format URL
+   */
+  jxl: string;
 };
 
 /** @internal */
@@ -38,6 +42,7 @@ export const CdnUrls$inboundSchema: z.ZodMiniType<CdnUrls, unknown> = z.object({
   avif: types.string(),
   jpeg: types.string(),
   png: types.string(),
+  jxl: types.string(),
 });
 
 export function cdnUrlsFromJSON(

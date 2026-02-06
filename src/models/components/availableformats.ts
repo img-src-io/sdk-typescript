@@ -21,6 +21,14 @@ export type AvailableFormats = {
    * JPEG format URL
    */
   jpeg: string;
+  /**
+   * PNG format URL
+   */
+  png: string;
+  /**
+   * JPEG XL format URL
+   */
+  jxl: string;
 };
 
 /** @internal */
@@ -31,6 +39,8 @@ export const AvailableFormats$inboundSchema: z.ZodMiniType<
   webp: types.string(),
   avif: types.string(),
   jpeg: types.string(),
+  png: types.string(),
+  jxl: types.string(),
 });
 
 export function availableFormatsFromJSON(

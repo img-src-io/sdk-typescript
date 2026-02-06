@@ -21,6 +21,7 @@ describe("MetadataResponse", () => {
         avif: "https://cdn.img-src.io/john/photo.avif",
         jpeg: "https://cdn.img-src.io/john/photo.jpeg",
         png: "https://cdn.img-src.io/john/photo.png",
+        jxl: "https://cdn.img-src.io/john/photo.jxl",
       },
       _links: {
         self: "/api/v1/images/meta123",
@@ -58,6 +59,7 @@ describe("MetadataResponse", () => {
         avif: "c",
         jpeg: "d",
         png: "e",
+        jxl: "f",
       },
       _links: { self: "/a", delete: "/b" },
     });

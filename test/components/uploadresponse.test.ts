@@ -15,6 +15,8 @@ describe("UploadResponse", () => {
       webp: "https://img-src.io/i/john/photo.webp",
       avif: "https://img-src.io/i/john/photo.avif",
       jpeg: "https://img-src.io/i/john/photo.jpeg",
+      png: "https://img-src.io/i/john/photo.png",
+      jxl: "https://img-src.io/i/john/photo.jxl",
     },
     visibility: "public",
     uploaded_at: "2024-01-15T10:30:00Z",
