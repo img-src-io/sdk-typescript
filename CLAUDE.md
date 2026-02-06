@@ -14,7 +14,7 @@ This is the **@img-src/sdk** TypeScript SDK — an auto-generated client library
 npm install          # Install dependencies
 npm run build        # Build via tshy (outputs ESM + CommonJS to dist/)
 npm run lint         # ESLint with zero warnings allowed
-npm test             # Run tests (CI runs this across Node 18, 20, 22)
+npm test             # Run tests (CI runs this across Node 20, 22, 24)
 ```
 
 There is no `npm run dev` or watch mode — this is a library, not an application.
@@ -25,7 +25,7 @@ There is no `npm run dev` or watch mode — this is a library, not an applicatio
 npm run build && npm test
 ```
 
-CI matrix: Node.js 18, 20, 22 on ubuntu-latest.
+CI matrix: Node.js 20, 22, 24 on ubuntu-latest.
 
 ## Architecture
 
@@ -89,7 +89,7 @@ Several rules are intentionally disabled because the code is auto-generated:
 
 The SDK is regenerated from the OpenAPI spec using Speakeasy. Generation metadata lives in `.speakeasy/gen.lock`. The current generation:
 - Speakeasy v1.685.3 / Generation v2.795.8
-- SDK version: 0.2.0
+- SDK version: 0.3.0
 - OpenAPI doc version: 1.0.0
 
 To regenerate, update the OpenAPI spec and run Speakeasy's generation tooling. See the parent repository's workflow for the exact regeneration command.
@@ -118,7 +118,7 @@ E2E integration tests require a live API key and are skipped automatically when 
 
 - **Config**: `vitest.config.ts` with globals enabled
 - **Test Pattern**: `test/**/*.test.ts`
-- **CI Matrix**: Node.js 18, 20, 22 on ubuntu-latest
+- **CI Matrix**: Node.js 20, 22, 24 on ubuntu-latest
 
 ## CD/Publishing
 
@@ -130,24 +130,24 @@ The SDK is published to npm automatically when a git tag is pushed.
 # 1. Update version in package.json
 # 2. Commit the version bump
 # 3. Tag and push to trigger publish
-git tag v0.2.0
-git push origin v0.2.0
+git tag v0.3.0
+git push origin v0.3.0
 ```
 
 ### Publish Workflow (`.github/workflows/publish.yml`)
 
-1. Runs full test suite across Node.js 18, 20, 22
+1. Runs full test suite across Node.js 20, 22, 24
 2. Validates git tag matches `package.json` version (fails if mismatch)
 3. Publishes to npm with `--provenance` flag (supply chain security)
 4. Creates a GitHub Release with auto-generated notes
 
 **Requirements:**
 - `NPM_TOKEN` secret in GitHub repository settings
-- Tag format: `v*` (e.g., `v0.2.0`)
+- Tag format: `v*` (e.g., `v0.3.0`)
 - Tag version must match `package.json` version exactly
 
 **Permissions:** `contents: write` (GitHub releases), `id-token: write` (npm provenance)
 
 ## Supported Runtimes
 
-Node.js 18+, evergreen browsers, Bun 1+, Deno 1.39+. Requires Fetch API, Streams API, and async iterables. Consumers should target `es2020` or higher with `lib: ["es2020", "dom", "dom.iterable"]`.
+Node.js 20+, evergreen browsers, Bun 1+, Deno 1.39+. Requires Fetch API, Streams API, and async iterables. Consumers should target `es2020` or higher with `lib: ["es2020", "dom", "dom.iterable"]`.
