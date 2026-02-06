@@ -56,7 +56,10 @@ describe.skipIf(!API_KEY)("SDK E2E Integration", () => {
   let uploadedImageId: string;
 
   beforeAll(() => {
-    sdk = new Imgsrc({ bearerAuth: API_KEY });
+    sdk = new Imgsrc({
+      bearerAuth: API_KEY,
+      serverURL: process.env["IMGSRC_SERVER_URL"] || undefined,
+    });
   });
 
   // ─── Settings ───────────────────────────────────────────
@@ -186,21 +189,29 @@ describe.skipIf(!API_KEY)("SDK E2E Integration", () => {
   it("images.updateImageVisibility()", async () => {
     expect(uploadedImageId).toBeTruthy();
 
-    const res = await sdk.images.updateImageVisibility(uploadedImageId, {
-      visibility: "private",
-    });
-    expect(res.httpMeta.response.status).toBe(200);
-    const updated = res.updateVisibilityResponse!;
-    expect(updated.visibility).toBe("private");
-    console.log(
-      `  [visibility] id=${updated.id} -> ${updated.visibility}`
-    );
+    try {
+      const res = await sdk.images.updateImageVisibility(uploadedImageId, {
+        visibility: "private",
+      });
+      expect(res.httpMeta.response.status).toBe(200);
+      const updated = res.updateVisibilityResponse!;
+      expect(updated.visibility).toBe("private");
+      console.log(
+        `  [visibility] id=${updated.id} -> ${updated.visibility}`
+      );
 
-    // Revert to public
-    const reverted = await sdk.images.updateImageVisibility(uploadedImageId, {
-      visibility: "public",
-    });
-    expect(reverted.updateVisibilityResponse!.visibility).toBe("public");
+      // Revert to public
+      const reverted = await sdk.images.updateImageVisibility(uploadedImageId, {
+        visibility: "public",
+      });
+      expect(reverted.updateVisibilityResponse!.visibility).toBe("public");
+    } catch (err: any) {
+      if (err?.httpMeta?.response?.status === 403) {
+        console.log("  [visibility] SKIPPED (Pro plan required)");
+      } else {
+        throw err;
+      }
+    }
   });
 
   // ─── Images: Create Signed URL (Pro only) ───────────────
@@ -220,7 +231,7 @@ describe.skipIf(!API_KEY)("SDK E2E Integration", () => {
         `  [signedUrl] url=${signed.signedUrl.slice(0, 60)}...`
       );
     } catch (err: any) {
-      if (err?.statusCode === 403 || err?.message?.includes("403")) {
+      if (err?.httpMeta?.response?.status === 403) {
         console.log("  [signedUrl] SKIPPED (Pro plan required)");
       } else {
         throw err;
@@ -240,7 +251,7 @@ describe.skipIf(!API_KEY)("SDK E2E Integration", () => {
         expect(res.httpMeta.response.status).toBe(200);
         console.log("  [presets.list] OK");
       } catch (err: any) {
-        if (err?.statusCode === 403 || err?.message?.includes("403")) {
+        if (err?.httpMeta?.response?.status === 403) {
           console.log("  [presets.list] SKIPPED (Pro plan required)");
         } else {
           throw err;
@@ -261,7 +272,7 @@ describe.skipIf(!API_KEY)("SDK E2E Integration", () => {
           `  [presets.create] id=${createdPresetId} name=${presetName}`
         );
       } catch (err: any) {
-        if (err?.statusCode === 403 || err?.message?.includes("403")) {
+        if (err?.httpMeta?.response?.status === 403) {
           console.log("  [presets.create] SKIPPED (Pro plan required)");
         } else {
           throw err;
