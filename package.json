@@ -1,6 +1,6 @@
 {
   "name": "@img-src/sdk",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "author": "Taehun <taehun@taehun.dev> (https://github.com/Taehun)",
   "engines": {
     "node": ">=18"
