@@ -3,7 +3,7 @@
   "version": "0.3.0",
   "author": "Taehun <taehun@taehun.dev> (https://github.com/Taehun)",
   "engines": {
-    "node": ">=18"
+    "node": ">=20"
   },
   "keywords": [
     "image-cdn",
