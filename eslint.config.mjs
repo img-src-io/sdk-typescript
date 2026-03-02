@@ -11,6 +11,7 @@ export default [
   {
     rules: {
       "no-constant-condition": "off",
+      "no-useless-assignment": "off",
       "no-useless-escape": "off",
       // Handled by typescript compiler
       "@typescript-eslint/no-unused-vars": "off",

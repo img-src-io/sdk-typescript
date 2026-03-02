@@ -114,7 +114,7 @@ async function $do(
         appendForm(
           body,
           "file",
-          new Blob([payload?.file.content], { type: contentType }),
+          new Blob([payload?.file.content as BlobPart], { type: contentType }),
           payload?.file.fileName,
         );
       }
