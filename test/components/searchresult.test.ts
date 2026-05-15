@@ -6,10 +6,12 @@ describe("SearchResult", () => {
     const json = JSON.stringify({
       id: "search123",
       original_filename: "banner.jpg",
+      sanitized_filename: null,
       paths: ["/john/banner.jpg"],
       size: 512000,
       uploaded_at: "2024-03-10T08:00:00Z",
       url: "/api/v1/images/search123",
+      cdn_url: null,
       visibility: "public",
     });
 

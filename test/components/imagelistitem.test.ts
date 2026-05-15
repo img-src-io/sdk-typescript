@@ -12,6 +12,7 @@ describe("ImageListItem", () => {
     cdn_url: "https://cdn.img-src.io/john/photo.png",
     paths: ["/john/photo.png"],
     visibility: "private",
+    active_signed_url: null,
   };
 
   it("parses with visibility and optional fields", () => {
@@ -26,7 +27,7 @@ describe("ImageListItem", () => {
     }
   });
 
-  it("works without active_signed_url field", () => {
+  it("treats null active_signed_url as undefined", () => {
     const result = imageListItemFromJSON(JSON.stringify(baseItem));
     expect(result.ok).toBe(true);
     if (result.ok) {

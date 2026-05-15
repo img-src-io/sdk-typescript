@@ -48,12 +48,13 @@ describe("UpdateImageVisibilityResponse (operation)", () => {
     expect(result.updateVisibilityResponse!.visibility).toBe("private");
   });
 
-  it("parses response without UpdateVisibilityResponse", () => {
+  it("parses response with null UpdateVisibilityResponse", () => {
     const raw = {
       HttpMeta: {
         Response: new Response(null, { status: 204 }),
         Request: new Request("https://api.img-src.io/api/v1/images/img123"),
       },
+      UpdateVisibilityResponse: null,
     };
 
     const result = UpdateImageVisibilityResponse$inboundSchema.parse(raw);

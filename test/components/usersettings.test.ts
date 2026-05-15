@@ -34,14 +34,17 @@ describe("UserSettings", () => {
     }
   });
 
-  it("parses without optional fields", () => {
+  it("parses with optional fields explicitly null", () => {
     const json = JSON.stringify({
       id: "user_abc123",
       username: "john",
+      email: null,
       plan: "free",
       delivery_formats: ["webp"],
       default_quality: 80,
       default_fit_mode: "contain",
+      default_max_width: null,
+      default_max_height: null,
       theme: "light",
       language: "en",
       created_at: 1700000000,

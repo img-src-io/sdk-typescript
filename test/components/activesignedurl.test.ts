@@ -18,8 +18,11 @@ describe("ActiveSignedUrl", () => {
     }
   });
 
-  it("coerces missing signed_url to empty string", () => {
-    const json = JSON.stringify({ expires_at: 1700000000 });
+  it("coerces null signed_url to empty string", () => {
+    const json = JSON.stringify({
+      signed_url: null,
+      expires_at: 1700000000,
+    });
     const result = activeSignedUrlFromJSON(json);
     expect(result.ok).toBe(true);
     if (result.ok) {
@@ -28,9 +31,10 @@ describe("ActiveSignedUrl", () => {
     }
   });
 
-  it("coerces missing expires_at to 0", () => {
+  it("coerces null expires_at to 0", () => {
     const json = JSON.stringify({
       signed_url: "https://example.com/signed?token=abc",
+      expires_at: null,
     });
     const result = activeSignedUrlFromJSON(json);
     expect(result.ok).toBe(true);
@@ -40,6 +44,12 @@ describe("ActiveSignedUrl", () => {
       );
       expect(result.value.expiresAt).toBe(0);
     }
+  });
+
+  it("rejects when required signed_url key is omitted", () => {
+    const json = JSON.stringify({ expires_at: 1700000000 });
+    const result = activeSignedUrlFromJSON(json);
+    expect(result.ok).toBe(false);
   });
 
   it("rejects non-JSON input", () => {

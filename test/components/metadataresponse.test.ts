@@ -13,6 +13,7 @@ describe("MetadataResponse", () => {
         mime_type: "image/png",
         width: 1920,
         height: 1080,
+        dominant_color: null,
       },
       visibility: "private",
       urls: {
